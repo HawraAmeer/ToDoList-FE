@@ -1,39 +1,56 @@
 import TaskItem from "./TaskItem";
-// Data
-import _tasks from "../data";
-import { useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 const TaskList = () => {
-  const [tasks, setTasks] = useState(_tasks);
+  const tasks = useSelector((state) => state.tasks);
 
-  const deleteTask = (taskId) => {
-    const filteredTasks = tasks.filter((task) => task.id !== taskId);
-    setTasks(filteredTasks);
-  };
+  // const deleteTask = (taskId) => {
+  //   const filteredTasks = tasks.filter((task) => task.id !== taskId);
+  //   setTasks(filteredTasks);
+  // };
 
-  //unFinished task
-  const taskRows = tasks
-    .filter((task) => task.done !== true)
-    .map((item) => (
-      <TaskItem item={item} deleteTask={deleteTask} key={item.id} />
-    ));
+  console.log(tasks);
+
+  // Not Done Tasks
+  const notDoneTasks = tasks
+    .filter((task) => task.status !== true)
+    .map((task) => <TaskItem key={task.id} task={task} />);
+
+  // Done Tasks
+  const doneTasks = tasks
+    .filter((task) => task.status !== false)
+    .map((task) => <TaskItem key={task.id} task={task} />);
 
   return (
-    <table className="table">
-      <thead>
-        <BiPlusCircle color="#d29200"></BiPlusCircle>
+    <>
+      <table className="table">
+        <thead>
+          <BiPlusCircle color="#d29200"></BiPlusCircle>
 
-        <tr className="headerRow">
-          <th>STATUS</th>
-          <th>TASK</th>
-          <th>PRIORITY</th>
-          <th>DELETE</th>
-          <th>DEADLINE</th>
-        </tr>
-      </thead>
-      <tbody>{taskRows}</tbody>
-    </table>
+          <tr className="headerRow">
+            <td>STATUS</td>
+            <td>TASK</td>
+            <td>PRIORITY</td>
+            {/* <td>DELETE</td> */}
+            <td>DEADLINE</td>
+          </tr>
+        </thead>
+        <tbody>{notDoneTasks}</tbody>
+      </table>
+      <table className="table">
+        <thead>
+          <tr className="headerRow">
+            <td>STATUS</td>
+            <td>TASK</td>
+            <td>PRIORITY</td>
+            {/* <td>DELETE</td> */}
+            <td>DEADLINE</td>
+          </tr>
+        </thead>
+        <tbody>{doneTasks}</tbody>
+      </table>
+    </>
   );
 };
 
