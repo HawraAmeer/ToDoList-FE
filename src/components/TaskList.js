@@ -1,6 +1,7 @@
 import TaskItem from "./TaskItem";
-import { BiPlusCircle } from "react-icons/bi";
+import TaskForm from "./TaskForm";
 import { useSelector } from "react-redux";
+import { Container, Grid, Paper } from "@material-ui/core";
 
 const TaskList = () => {
   const tasks = useSelector((state) => state.tasks);
@@ -24,32 +25,39 @@ const TaskList = () => {
 
   return (
     <>
-      <table className="table">
-        <thead>
-          <BiPlusCircle color="#d29200"></BiPlusCircle>
-
-          <tr className="headerRow">
-            <td>STATUS</td>
-            <td>TASK</td>
-            <td>PRIORITY</td>
-            {/* <td>DELETE</td> */}
-            <td>DEADLINE</td>
-          </tr>
-        </thead>
-        <tbody>{notDoneTasks}</tbody>
-      </table>
-      <table className="table">
-        <thead>
-          <tr className="headerRow">
-            <td>STATUS</td>
-            <td>TASK</td>
-            <td>PRIORITY</td>
-            {/* <td>DELETE</td> */}
-            <td>DEADLINE</td>
-          </tr>
-        </thead>
-        <tbody>{doneTasks}</tbody>
-      </table>
+      <TaskForm />
+      <Grid item xs={12}>
+        <Grid container justify="center" spacing={6}>
+          <Grid key={0} item>
+            <Paper />
+            <table className="table">
+              <thead>
+                <tr className="headerRow">
+                  <td>STATUS</td>
+                  <td>TASK</td>
+                  <td>PRIORITY</td>
+                  <td>DEADLINE</td>
+                </tr>
+              </thead>
+              <tbody>{notDoneTasks}</tbody>
+            </table>
+          </Grid>
+          <Grid key={1} item>
+            <Paper />
+            <table className="table">
+              <thead>
+                <tr className="headerRow">
+                  <td>STATUS</td>
+                  <td>TASK</td>
+                  <td>PRIORITY</td>
+                  <td>DEADLINE</td>
+                </tr>
+              </thead>
+              <tbody>{doneTasks}</tbody>
+            </table>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };

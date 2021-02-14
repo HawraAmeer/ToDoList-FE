@@ -11,7 +11,7 @@ const override = css`
 `;
 
 const Loading = () => {
-  return <BeatLoader color="pink" css={override} size={50} />;
+  return <BeatLoader color="grey" css={override} size={50} />;
 };
 
 export default Loading;

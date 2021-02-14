@@ -1,84 +1,61 @@
-import { addProduct, updateProduct } from "../../store/actions";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createTask } from "../store/actions";
 
 const TaskForm = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
-  const { taskSlug } = useParams();
-
-  const foundTask = useSelector((state) =>
-    state.products.find((product) => product.slug === productSlug)
-  );
-
-  const [product, setProduct] = useState(
-    foundProduct ?? {
-      name: "",
-      price: 0,
-      description: "",
-      image: "",
-    }
-  );
+  const [task, setTask] = useState({
+    name: "",
+    status: false,
+    priority: "middle",
+    deadline: "",
+  });
 
   const handleChange = (event) =>
-    setProduct({ ...product, [event.target.name]: event.target.value });
+    setTask({ ...task, [event.target.name]: event.target.value });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (foundProduct) dispatch(updateProduct(product));
-    else dispatch(addProduct(product));
-    history.push("/products");
+    // if (foundProduct) dispatch(updateProduct(product));
+    // else
+    dispatch(createTask(task));
+    // history.push("/products");
   };
 
   return (
-    <form className="container" onSubmit={handleSubmit}>
-      <h1>{foundProduct ? "Update" : "Create"} Product</h1>
-      <div className="mb-3">
-        <label className="form-label">Name</label>
+    <form onSubmit={handleSubmit}>
+      <h1>Create Task</h1>
+      <div>
+        <label>Task Name</label>
         <input
           type="text"
-          value={product.name}
+          value={task.name}
           onChange={handleChange}
           name="name"
-          className="form-control"
+          placeholder="What's your Task?"
         />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Price</label>
-        <input
-          type="number"
-          value={product.price}
-          onChange={handleChange}
-          name="price"
-          className="form-control"
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Description</label>
+      <div>
+        <label>Priority</label>
         <input
           type="text"
-          value={product.description}
+          value={task.priority}
           onChange={handleChange}
-          name="description"
+          name="priority"
           className="form-control"
         />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Image</label>
+      <div>
+        <label>Deadline</label>
         <input
           type="text"
-          value={product.image}
+          value={task.deadline}
           onChange={handleChange}
-          name="image"
-          className="form-control"
+          name="deadline"
         />
       </div>
-      <button type="submit" className="btn btn-info float-right">
-        {foundProduct ? "Update" : "Create"}
-      </button>
+      <button type="submit">Create</button>
     </form>
   );
 };
